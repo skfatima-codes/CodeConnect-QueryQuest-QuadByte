@@ -1,0 +1,72 @@
+<mxfile host="Electron" modified="2026-10-18T00:00:00.000Z" agent="Antigravity Enterprise Architect" version="21.6.8" type="device">
+  <diagram id="repl-arch" name="Replication Architecture">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" background="#F8FAFC" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- Header -->
+        <mxCell id="hdr" value="&lt;b style=&quot;font-size: 18px; color: #0F172A;&quot;&gt;PostgreSQL Master-Replica Replication Topology (80% Read / 20% Write)&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="150" y="30" width="800" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- Client Layer -->
+        <mxCell id="client_box" value="&lt;b style=&quot;font-size: 14px; color: #1E293B;&quot;&gt;Client Layer&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;• Web Ordering App&lt;br/&gt;• Mobile App (iOS / Android)&lt;br/&gt;• Rider Logistics App&lt;br/&gt;• Merchant Portal&lt;br/&gt;&lt;br/&gt;&lt;b style=&quot;color: #B45309;&quot;&gt;10x Ramadan Spike&lt;/b&gt;&lt;br/&gt;&lt;span style=&quot;font-size: 11px; color: #92400E;&quot;&gt;(500k orders/day)&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#475569;strokeWidth=1.5;verticalAlign=top;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="40" y="160" width="200" height="250" as="geometry" />
+        </mxCell>
+
+        <!-- Proxy Layer -->
+        <mxCell id="proxy_box" value="&lt;b style=&quot;font-size: 14px; color: #1E40AF;&quot;&gt;Routing &amp;amp; Proxy Layer&lt;/b&gt;&lt;br/&gt;&lt;b style=&quot;color: #2563EB;&quot;&gt;HAProxy + PgBouncer&lt;/b&gt;&lt;br/&gt;&lt;span style=&quot;font-size: 11px; color: #64748B;&quot;&gt;Connection Pooling &amp;amp; Routing&lt;/span&gt;&lt;br/&gt;&lt;br/&gt;&lt;b style=&quot;color: #1E3A8A;&quot;&gt;Read-Your-Writes Router&lt;/b&gt;&lt;br/&gt;&lt;span style=&quot;font-size: 10px; color: #475569;&quot;&gt;Pins reads for 5s after write&lt;br/&gt;Eliminates replication lag race&lt;/span&gt;&lt;br/&gt;&lt;br/&gt;&lt;b style=&quot;color: #DC2626;&quot;&gt;Port 5432 ➔ Primary (Writes)&lt;/b&gt;&lt;br/&gt;&lt;b style=&quot;color: #059669;&quot;&gt;Port 5433 ➔ Replicas (Reads)&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EFF6FF;strokeColor=#2563EB;strokeWidth=2;verticalAlign=top;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="320" y="140" width="240" height="290" as="geometry" />
+        </mxCell>
+
+        <!-- Primary DB -->
+        <mxCell id="primary_db" value="&lt;b style=&quot;font-size: 14px; color: #991B1B;&quot;&gt;Primary PostgreSQL Node (Writer)&lt;/b&gt;&lt;br/&gt;&lt;b style=&quot;color: #B91C1C;&quot;&gt;20% Traffic: INSERT / UPDATE / FOR UPDATE&lt;/b&gt;&lt;br/&gt;&lt;span style=&quot;font-size: 11px; color: #7F1D1D;&quot;&gt;ACID Transactions • Order Transitions • Financial Ledger&lt;br/&gt;Master WAL Sequence: pg_current_wal_lsn()&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEF2F2;strokeColor=#B91C1C;strokeWidth=2;verticalAlign=middle;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="680" y="90" width="340" height="110" as="geometry" />
+        </mxCell>
+
+        <!-- Read Replicas -->
+        <mxCell id="read_replicas" value="&lt;b style=&quot;font-size: 14px; color: #065F46;&quot;&gt;Read Replica 1 &amp;amp; 2 (Active Readers)&lt;/b&gt;&lt;br/&gt;&lt;b style=&quot;color: #047857;&quot;&gt;80% Traffic: Menus, Catalog Search, Reviews&lt;/b&gt;&lt;br/&gt;&lt;span style=&quot;font-size: 11px; color: #047857;&quot;&gt;Round-Robin Load Balanced via PgBouncer Pool&lt;br/&gt;Auto-Scales from 2 to 6 Nodes During Ramadan Peaks&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ECFDF5;strokeColor=#047857;strokeWidth=2;verticalAlign=middle;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="680" y="250" width="340" height="115" as="geometry" />
+        </mxCell>
+
+        <!-- Standby DB -->
+        <mxCell id="standby_db" value="&lt;b style=&quot;font-size: 13px; color: #374151;&quot;&gt;Replica 3 / Hot Standby Node&lt;/b&gt;&lt;br/&gt;&lt;span style=&quot;font-size: 11px; color: #4B5563;&quot;&gt;Automated Patroni / Raft Failover Target&lt;br/&gt;Isolated Heavy Reporting &amp;amp; Analytical Backup Scans&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F9FAFB;strokeColor=#6B7280;strokeWidth=1.5;verticalAlign=middle;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="680" y="415" width="340" height="85" as="geometry" />
+        </mxCell>
+
+        <!-- Connectors -->
+        <mxCell id="e_c_p" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#1E293B;strokeWidth=2;startArrow=classic;endArrow=classic;" edge="1" parent="1" source="client_box" target="proxy_box">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e_p_w" value="&lt;b style=&quot;color: #DC2626;&quot;&gt;Writes (20%)&lt;/b&gt;" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#DC2626;strokeWidth=2;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="proxy_box" target="primary_db">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="610" y="220" />
+              <mxPoint x="610" y="145" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="e_p_r" value="&lt;b style=&quot;color: #059669;&quot;&gt;Reads (80%)&lt;/b&gt;" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#059669;strokeWidth=2;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="proxy_box" target="read_replicas">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e_wal1" value="Async WAL Streaming" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#2563EB;strokeWidth=2;dashed=1;" edge="1" parent="1" source="primary_db" target="read_replicas">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e_wal2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#2563EB;strokeWidth=1.5;dashed=1;" edge="1" parent="1" source="read_replicas" target="standby_db">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Footer Callout -->
+        <mxCell id="footer" value="&lt;b&gt;High Availability SLA:&lt;/b&gt; 99.99% • &lt;b&gt;RPO:&lt;/b&gt; &amp;lt; 1s • &lt;b&gt;RTO:&lt;/b&gt; &amp;lt; 30s with zero data loss on primary failure." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#CBD5E1;strokeWidth=1;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="150" y="525" width="800" height="40" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

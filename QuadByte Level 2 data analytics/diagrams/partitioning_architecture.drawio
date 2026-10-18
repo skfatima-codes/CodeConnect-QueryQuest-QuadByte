@@ -1,0 +1,93 @@
+<mxfile host="Electron" modified="2026-10-18T00:00:00.000Z" agent="Antigravity Enterprise Architect" version="21.6.8" type="device">
+  <diagram id="partitioning-arch" name="Partitioning Architecture">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" background="#F8FAFC" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <!-- Header -->
+        <mxCell id="hdr" value="&lt;b style=&quot;font-size: 18px; color: #0F172A;&quot;&gt;PostgreSQL Dual Partitioning Architecture (&amp;quot;You Hungry&amp;quot; Platform)&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="200" y="30" width="700" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- Orders Root -->
+        <mxCell id="orders_root" value="&lt;b style=&quot;font-size: 14px; color: #1E3A8A;&quot;&gt;Orders (Partition Root) — 18M Rows / 50k Daily&lt;/b&gt;&lt;br/&gt;&lt;i style=&quot;font-size: 12px; color: #2563EB;&quot;&gt;PARTITION BY RANGE (order_date)&lt;/i&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DBEAFE;strokeColor=#1E3A8A;strokeWidth=2;arcSize=10;" vertex="1" parent="1">
+          <mxGeometry x="360" y="90" width="380" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Partitions -->
+        <mxCell id="p_jan" value="&lt;b style=&quot;color: #0F172A;&quot;&gt;orders_2026_01&lt;/b&gt;&lt;br/&gt;&lt;span style=&quot;color: #64748B;&quot;&gt;Jan (1.5M rows)&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#64748B;strokeWidth=1.5;arcSize=10;" vertex="1" parent="1">
+          <mxGeometry x="80" y="210" width="160" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="p_feb" value="&lt;b style=&quot;color: #0F172A;&quot;&gt;orders_2026_02&lt;/b&gt;&lt;br/&gt;&lt;span style=&quot;color: #64748B;&quot;&gt;Feb (1.5M rows)&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#64748B;strokeWidth=1.5;arcSize=10;" vertex="1" parent="1">
+          <mxGeometry x="280" y="210" width="160" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="p_mar" value="&lt;b style=&quot;color: #0F172A;&quot;&gt;orders_2026_03&lt;/b&gt;&lt;br/&gt;&lt;span style=&quot;color: #64748B;&quot;&gt;Mar (1.5M rows)&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#64748B;strokeWidth=1.5;arcSize=10;" vertex="1" parent="1">
+          <mxGeometry x="480" y="210" width="160" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="p_ramadan" value="&lt;b style=&quot;color: #92400E;&quot;&gt;orders_ramadan&lt;/b&gt;&lt;br/&gt;&lt;b style=&quot;color: #B45309;&quot;&gt;Ramadan (4.5M)&lt;/b&gt;&lt;br/&gt;&lt;span style=&quot;color: #D97706; font-size: 10px;&quot;&gt;10x Surge Bucket&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEF3C7;strokeColor=#D97706;strokeWidth=2;arcSize=10;" vertex="1" parent="1">
+          <mxGeometry x="680" y="210" width="160" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="p_arch" value="&lt;b style=&quot;color: #0F172A;&quot;&gt;orders_archive&lt;/b&gt;&lt;br/&gt;&lt;span style=&quot;color: #64748B;&quot;&gt;Compressed Cold Store&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F1F5F9;strokeColor=#94A3B8;strokeWidth=1.5;dashed=1;arcSize=10;" vertex="1" parent="1">
+          <mxGeometry x="880" y="210" width="160" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Edges from Orders Root to Partitions -->
+        <mxCell id="e_jan" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#3B82F6;strokeWidth=1.5;" edge="1" parent="1" source="orders_root" target="p_jan">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_feb" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#3B82F6;strokeWidth=1.5;" edge="1" parent="1" source="orders_root" target="p_feb">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_mar" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#3B82F6;strokeWidth=1.5;" edge="1" parent="1" source="orders_root" target="p_mar">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_ram" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#D97706;strokeWidth=2;" edge="1" parent="1" source="orders_root" target="p_ramadan">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_arch" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#94A3B8;strokeWidth=1.5;dashed=1;" edge="1" parent="1" source="orders_root" target="p_arch">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Customer Root -->
+        <mxCell id="cust_root" value="&lt;b style=&quot;font-size: 14px; color: #0F766E;&quot;&gt;Customer (Partition Root) — 1M Users / Uniform Access&lt;/b&gt;&lt;br/&gt;&lt;i style=&quot;font-size: 12px; color: #0D9488;&quot;&gt;PARTITION BY HASH (customer_id)&lt;/i&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#CCFBF1;strokeColor=#0F766E;strokeWidth=2;arcSize=10;" vertex="1" parent="1">
+          <mxGeometry x="360" y="340" width="380" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Customer Hash Buckets -->
+        <mxCell id="c_h0" value="&lt;b style=&quot;color: #0F766E;&quot;&gt;customer_h0&lt;/b&gt;&lt;br/&gt;&lt;span style=&quot;color: #047857;&quot;&gt;250k users (MOD 0)&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F0FDFA;strokeColor=#0D9488;strokeWidth=1.5;arcSize=10;" vertex="1" parent="1">
+          <mxGeometry x="120" y="470" width="180" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="c_h1" value="&lt;b style=&quot;color: #0F766E;&quot;&gt;customer_h1&lt;/b&gt;&lt;br/&gt;&lt;span style=&quot;color: #047857;&quot;&gt;250k users (MOD 1)&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F0FDFA;strokeColor=#0D9488;strokeWidth=1.5;arcSize=10;" vertex="1" parent="1">
+          <mxGeometry x="360" y="470" width="180" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="c_h2" value="&lt;b style=&quot;color: #0F766E;&quot;&gt;customer_h2&lt;/b&gt;&lt;br/&gt;&lt;span style=&quot;color: #047857;&quot;&gt;250k users (MOD 2)&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F0FDFA;strokeColor=#0D9488;strokeWidth=1.5;arcSize=10;" vertex="1" parent="1">
+          <mxGeometry x="600" y="470" width="180" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="c_h3" value="&lt;b style=&quot;color: #0F766E;&quot;&gt;customer_h3&lt;/b&gt;&lt;br/&gt;&lt;span style=&quot;color: #047857;&quot;&gt;250k users (MOD 3)&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F0FDFA;strokeColor=#0D9488;strokeWidth=1.5;arcSize=10;" vertex="1" parent="1">
+          <mxGeometry x="840" y="470" width="180" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Edges for Customer Hash -->
+        <mxCell id="e_ch0" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#0D9488;strokeWidth=1.5;" edge="1" parent="1" source="cust_root" target="c_h0">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_ch1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#0D9488;strokeWidth=1.5;" edge="1" parent="1" source="cust_root" target="c_h1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_ch2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#0D9488;strokeWidth=1.5;" edge="1" parent="1" source="cust_root" target="c_h2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_ch3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#0D9488;strokeWidth=1.5;" edge="1" parent="1" source="cust_root" target="c_h3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Callout Banner -->
+        <mxCell id="callout_box" value="&lt;b&gt;Architectural Principle:&lt;/b&gt; Range Partitioning enables instant Partition Pruning on temporal queries (95% of OLTP traffic).&lt;br/&gt;&lt;span style=&quot;color: #64748B;&quot;&gt;Hash Partitioning balances concurrent user write locks and keeps B-Tree indexes pinned in RAM.&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#CBD5E1;strokeWidth=1;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="150" y="580" width="800" height="50" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

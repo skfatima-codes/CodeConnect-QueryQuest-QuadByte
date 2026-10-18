@@ -1,0 +1,150 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 620" width="100%" height="100%">
+  <defs>
+    <style>
+      .title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-size: 20px; font-weight: 700; fill: #0f172a; text-anchor: middle; }
+      .section-hdr { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-size: 15px; font-weight: 700; fill: #1e3a8a; }
+      .root-title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-size: 14px; font-weight: 700; fill: #1e3a8a; text-anchor: middle; }
+      .root-sub { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-size: 12px; font-style: italic; fill: #2563eb; text-anchor: middle; }
+      .part-title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-size: 12px; font-weight: 700; fill: #0f172a; text-anchor: middle; }
+      .part-sub { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-size: 11px; fill: #475569; text-anchor: middle; }
+      .cust-root-title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-size: 14px; font-weight: 700; fill: #0f766e; text-anchor: middle; }
+      .cust-root-sub { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-size: 12px; font-style: italic; fill: #0d9488; text-anchor: middle; }
+      .callout { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-size: 12px; fill: #334155; text-anchor: middle; }
+    </style>
+    <filter id="shadow" x="-3%" y="-5%" width="106%" height="114%" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#0f172a" flood-opacity="0.08" />
+    </filter>
+    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#eff6ff" />
+      <stop offset="100%" stop-color="#dbeafe" />
+    </linearGradient>
+    <linearGradient id="tealGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#f0fdfa" />
+      <stop offset="100%" stop-color="#ccfbf1" />
+    </linearGradient>
+    <linearGradient id="amberGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#fffbeb" />
+      <stop offset="100%" stop-color="#fef3c7" />
+    </linearGradient>
+    <marker id="arrowBlue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#3b82f6" />
+    </marker>
+    <marker id="arrowTeal" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#0d9488" />
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="960" height="620" fill="#f8fafc" rx="8" />
+  <rect x="16" y="16" width="928" height="588" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" rx="8" />
+
+  <!-- Main Title -->
+  <text x="480" y="48" class="title">PostgreSQL Dual Partitioning Architecture (&quot;You Hungry&quot; Platform)</text>
+  <line x1="48" y1="62" x2="912" y2="62" stroke="#cbd5e1" stroke-width="1" />
+
+  <!-- SECTION 1: ORDERS RANGE PARTITIONING -->
+  <!-- Root Orders Table -->
+  <g filter="url(#shadow)">
+    <rect x="290" y="80" width="380" height="64" rx="8" fill="url(#blueGrad)" stroke="#1e3a8a" stroke-width="2" />
+    <text x="480" y="106" class="root-title">Orders (Partition Root) — 18M Rows / 50k Daily</text>
+    <text x="480" y="128" class="root-sub">PARTITION BY RANGE (order_date)</text>
+  </g>
+
+  <!-- Bus Distribution Line -->
+  <path d="M 480 144 L 480 170 M 115 170 L 845 170" stroke="#3b82f6" stroke-width="2" fill="none" />
+  <path d="M 115 170 L 115 194" stroke="#3b82f6" stroke-width="2" fill="none" marker-end="url(#arrowBlue)" />
+  <path d="M 297 170 L 297 194" stroke="#3b82f6" stroke-width="2" fill="none" marker-end="url(#arrowBlue)" />
+  <path d="M 480 170 L 480 194" stroke="#3b82f6" stroke-width="2" fill="none" marker-end="url(#arrowBlue)" />
+  <path d="M 662 170 L 662 194" stroke="#3b82f6" stroke-width="2" fill="none" marker-end="url(#arrowBlue)" />
+  <path d="M 845 170 L 845 194" stroke="#3b82f6" stroke-width="2" fill="none" marker-end="url(#arrowBlue)" />
+
+  <!-- Partitions -->
+  <!-- Jan -->
+  <g filter="url(#shadow)">
+    <rect x="40" y="200" width="150" height="64" rx="6" fill="#f8fafc" stroke="#64748b" stroke-width="1.5" />
+    <text x="115" y="226" class="part-title">orders_2026_01</text>
+    <text x="115" y="246" class="part-sub">Jan (1.5M rows)</text>
+  </g>
+
+  <!-- Feb -->
+  <g filter="url(#shadow)">
+    <rect x="222" y="200" width="150" height="64" rx="6" fill="#f8fafc" stroke="#64748b" stroke-width="1.5" />
+    <text x="297" y="226" class="part-title">orders_2026_02</text>
+    <text x="297" y="246" class="part-sub">Feb (1.5M rows)</text>
+  </g>
+
+  <!-- Mar -->
+  <g filter="url(#shadow)">
+    <rect x="405" y="200" width="150" height="64" rx="6" fill="#f8fafc" stroke="#64748b" stroke-width="1.5" />
+    <text x="480" y="226" class="part-title">orders_2026_03</text>
+    <text x="480" y="246" class="part-sub">Mar (1.5M rows)</text>
+  </g>
+
+  <!-- Ramadan Peak (Highlighted) -->
+  <g filter="url(#shadow)">
+    <rect x="587" y="200" width="150" height="64" rx="6" fill="url(#amberGrad)" stroke="#d97706" stroke-width="2" />
+    <text x="662" y="224" class="part-title" fill="#92400e">orders_ramadan</text>
+    <text x="662" y="242" class="part-sub" fill="#b45309" font-weight="bold">Ramadan (4.5M)</text>
+    <text x="662" y="255" font-family="-apple-system, sans-serif" font-size="9px" fill="#d97706" text-anchor="middle">10x Surge Bucket</text>
+  </g>
+
+  <!-- Cold Storage -->
+  <g filter="url(#shadow)">
+    <rect x="770" y="200" width="150" height="64" rx="6" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4 2" />
+    <text x="845" y="226" class="part-title">orders_archive</text>
+    <text x="845" y="246" class="part-sub">Compressed Cold Store</text>
+  </g>
+
+  <line x1="48" y1="288" x2="912" y2="288" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="6 4" />
+
+  <!-- SECTION 2: CUSTOMER HASH PARTITIONING -->
+  <!-- Root Customer Table -->
+  <g filter="url(#shadow)">
+    <rect x="290" y="310" width="380" height="64" rx="8" fill="url(#tealGrad)" stroke="#0f766e" stroke-width="2" />
+    <text x="480" y="336" class="cust-root-title">Customer (Partition Root) — 1M Users / Uniform Access</text>
+    <text x="480" y="358" class="cust-root-sub">PARTITION BY HASH (customer_id)</text>
+  </g>
+
+  <!-- Bus Line for Hash -->
+  <path d="M 480 374 L 480 400 M 120 400 L 840 400" stroke="#0d9488" stroke-width="2" fill="none" />
+  <path d="M 120 400 L 120 424" stroke="#0d9488" stroke-width="2" fill="none" marker-end="url(#arrowTeal)" />
+  <path d="M 360 400 L 360 424" stroke="#0d9488" stroke-width="2" fill="none" marker-end="url(#arrowTeal)" />
+  <path d="M 600 400 L 600 424" stroke="#0d9488" stroke-width="2" fill="none" marker-end="url(#arrowTeal)" />
+  <path d="M 840 400 L 840 424" stroke="#0d9488" stroke-width="2" fill="none" marker-end="url(#arrowTeal)" />
+
+  <!-- Hash Buckets -->
+  <!-- Bucket 0 -->
+  <g filter="url(#shadow)">
+    <rect x="40" y="430" width="160" height="60" rx="6" fill="#f0fdfa" stroke="#0d9488" stroke-width="1.5" />
+    <text x="120" y="454" class="part-title" fill="#0f766e">customer_h0</text>
+    <text x="120" y="474" class="part-sub" fill="#047857">250k users (MOD 0)</text>
+  </g>
+
+  <!-- Bucket 1 -->
+  <g filter="url(#shadow)">
+    <rect x="280" y="430" width="160" height="60" rx="6" fill="#f0fdfa" stroke="#0d9488" stroke-width="1.5" />
+    <text x="360" y="454" class="part-title" fill="#0f766e">customer_h1</text>
+    <text x="360" y="474" class="part-sub" fill="#047857">250k users (MOD 1)</text>
+  </g>
+
+  <!-- Bucket 2 -->
+  <g filter="url(#shadow)">
+    <rect x="520" y="430" width="160" height="60" rx="6" fill="#f0fdfa" stroke="#0d9488" stroke-width="1.5" />
+    <text x="600" y="454" class="part-title" fill="#0f766e">customer_h2</text>
+    <text x="600" y="474" class="part-sub" fill="#047857">250k users (MOD 2)</text>
+  </g>
+
+  <!-- Bucket 3 -->
+  <g filter="url(#shadow)">
+    <rect x="760" y="430" width="160" height="60" rx="6" fill="#f0fdfa" stroke="#0d9488" stroke-width="1.5" />
+    <text x="840" y="454" class="part-title" fill="#0f766e">customer_h3</text>
+    <text x="840" y="474" class="part-sub" fill="#047857">250k users (MOD 3)</text>
+  </g>
+
+  <!-- Bottom Callout Note -->
+  <g filter="url(#shadow)">
+    <rect x="60" y="520" width="840" height="64" rx="6" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+    <text x="480" y="544" class="callout" font-weight="600">Architectural Principle: Range Partitioning enables instant Partition Pruning on temporal queries (95% of OLTP traffic).</text>
+    <text x="480" y="566" class="callout" fill="#64748b">Hash Partitioning eliminates write hotspot lock contention across 1M customer records and pins B-Tree indexes directly in RAM.</text>
+  </g>
+</svg>

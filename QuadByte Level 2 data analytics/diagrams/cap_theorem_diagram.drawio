@@ -1,0 +1,47 @@
+<mxfile host="Electron" modified="2026-10-18T00:00:00.000Z" agent="Antigravity Enterprise Architect" version="21.6.8" type="device">
+  <diagram id="cap-matrix" name="CAP and PACELC Matrix">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" background="#F8FAFC" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- Header -->
+        <mxCell id="hdr" value="&lt;b style=&quot;font-size: 18px; color: #0F172A;&quot;&gt;CAP &amp;amp; PACELC Theorem Operational Matrix (&amp;quot;You Hungry&amp;quot; Platform)&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="150" y="30" width="800" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- CAP Triangle -->
+        <mxCell id="tri" value="" style="triangle;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#94A3B8;strokeWidth=2;dashed=1;direction=north;" vertex="1" parent="1">
+          <mxGeometry x="250" y="110" width="600" height="350" as="geometry" />
+        </mxCell>
+
+        <!-- Vertices -->
+        <mxCell id="v_c" value="&lt;b style=&quot;font-size: 14px; color: #1E3A8A;&quot;&gt;Consistency (C)&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DBEAFE;strokeColor=#1E3A8A;strokeWidth=2;arcSize=10;" vertex="1" parent="1">
+          <mxGeometry x="450" y="80" width="200" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="v_a" value="&lt;b style=&quot;font-size: 14px; color: #047857;&quot;&gt;Availability (A)&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D1FAE5;strokeColor=#047857;strokeWidth=2;arcSize=10;" vertex="1" parent="1">
+          <mxGeometry x="150" y="440" width="200" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="v_p" value="&lt;b style=&quot;font-size: 14px; color: #7C3AED;&quot;&gt;Partition Tolerance (P)&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EDE9FE;strokeColor=#7C3AED;strokeWidth=2;arcSize=10;" vertex="1" parent="1">
+          <mxGeometry x="750" y="440" width="200" height="45" as="geometry" />
+        </mxCell>
+
+        <!-- AP Cluster Box -->
+        <mxCell id="ap_box" value="&lt;b style=&quot;font-size: 13px; color: #0F766E;&quot;&gt;AP CLUSTER (High Availability)&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;• &lt;b&gt;Real-time Rider GPS Tracking&lt;/b&gt; (3s telemetry)&lt;br/&gt;• &lt;b&gt;Restaurant &amp;amp; Menu Catalog Browsing&lt;/b&gt;&lt;br/&gt;• &lt;b&gt;Customer Review Feeds &amp;amp; Ratings&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;&lt;i style=&quot;color: #0F766E; font-size: 11px;&quot;&gt;Network Partition ➔ Serve stale read cache&lt;br/&gt;Prioritize zero customer downtime.&lt;/i&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F0FDFA;strokeColor=#0D9488;strokeWidth=2;verticalAlign=top;arcSize=8;align=left;spacingLeft=12;" vertex="1" parent="1">
+          <mxGeometry x="60" y="190" width="340" height="190" as="geometry" />
+        </mxCell>
+
+        <!-- CP Cluster Box -->
+        <mxCell id="cp_box" value="&lt;b style=&quot;font-size: 13px; color: #991B1B;&quot;&gt;CP CLUSTER (Strict Consistency)&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;• &lt;b&gt;Order Placement &amp;amp; Checkout&lt;/b&gt;&lt;br/&gt;• &lt;b&gt;Payment Processing &amp;amp; Wallet Ledger&lt;/b&gt;&lt;br/&gt;• &lt;b&gt;Rider Order Claim&lt;/b&gt; (SELECT FOR UPDATE)&lt;br/&gt;&lt;br/&gt;&lt;i style=&quot;color: #B91C1C; font-size: 11px;&quot;&gt;Network Partition ➔ Block / reject split writes&lt;br/&gt;Prevent lost updates and duplicate orders.&lt;/i&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEF2F2;strokeColor=#DC2626;strokeWidth=2;verticalAlign=top;arcSize=8;align=left;spacingLeft=12;" vertex="1" parent="1">
+          <mxGeometry x="700" y="190" width="340" height="190" as="geometry" />
+        </mxCell>
+
+        <!-- Footer Callout -->
+        <mxCell id="callout" value="&lt;b&gt;Fundamental Law:&lt;/b&gt; Network partitions (P) are an unavoidable physical reality in distributed infrastructure.&lt;br/&gt;&lt;span style=&quot;color: #64748B;&quot;&gt;When physical links fail, systems MUST choose between CP (Consistency) or AP (Availability).&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#CBD5E1;strokeWidth=1;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="150" y="530" width="800" height="50" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
